@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test2_practice</title>
+</head>
+<style>
+    *{
+        padding:0;
+        margin:0;
+    }
+    html, body{
+        height:100%;
+        width:100%;
+    }
+
+    .pages{
+        height:100%;
+        width:100%;
+        position:relative;
+        overflow:hidden;
+    }
+
+    .page{
+        height:100%;
+        width:100%;
+        position:absolute;
+        left:0;
+        bottom:-100%;
+        transition:bottom .7s;
+    }
+
+    .page:first-child{
+        bottom:0;
+    }
+
+    .first{
+        background-color:#dc322f;
+    }
+
+    .second{
+        background-color:#073642;
+    }
+
+    .third{
+        background-color:#cb4b16;
+    }
+
+    .fourth{
+        background-color:#6c71c4;
+    }
+
+    .pagination{
+        position:absolute;
+        right:20px;
+        top:50%;
+        transform:translateY(-50%);
+    }
+
+    .pagination > li{
+        list-style:none;
+        height:20px;
+        width:20px;
+        background-color:#000;
+        border-radius:50%;
+        margin-top:10px;
+        transition:background .7s;
+    }
+
+    .pagination > li.active{
+        background:#fff;
+    }
+
+    .title{
+        width:100%;
+        position:absolute;
+        top:50%;
+        text-align:center;
+        transform:translateY(-50%);
+        color:#fff;
+    }
+
+</style>
+<body>
+    <div class="pages">
+        <section class="page first">
+            <h2 class="title">(｀ω´)</h2>
+        </section>
+        <section class="page second">
+            <h2 class="title">(・´з`・)</h2>
+        </section>
+        <section class="page third">
+            <h2 class="title">｡ﾟ(ﾟ^Ｏ^ﾟ)ﾟ｡</h2>
+        </section>
+        <section class="page fourth">
+            <h2 class="title">(๑≧▽≦)</h2>
+        </section>
+    </div>
+    <!--<ul class="pagination"></ul>-->
+    <script>
+        window.onload = function(){
+            let pages = document.querySelector(".pages");
+            let pagination = document.querySelector(".pagination");
+            let slider = new Slider(pages, pagination);
+
+            function Slider(pages, pagination){
+                let slides;
+                let btns = [];
+                let count =0;
+                let current = 0;
+                let touchstart =0;
+                let animation_state = false;
+
+
+                function gotoNum(index){
+                    if((index !== current) && !animation_state){
+                        animation_state=true;
+
+                        setTimeout(function(){
+                            animation_state=false;
+                        }, 500);
+
+                        current = index;
+
+                        for(let i =0; i<count; i++){
+                            slides[i].style.bottom = `${(current - i)*100}%`;
+                        }
+                    }
+                }
+
+                
+                function gotoNext(){
+                    if(current < count -1){
+                        gotoNum(current+1);
+                    }else{
+                        return false;
+                    }
+                }
+
+                function gotoPrev(){
+                    if(current > 0){
+                        gotoNum(current -1);
+                    }else{
+                        return false;
+                    }
+                }
+
+
+                pages.addEventListener("mousewheel", function(e){
+                    if(e.deltaY < 0){
+                        //스크롤 업
+                        gotoPrev();
+                    }else{
+                        //스크롤 다운
+                        gotoNext();
+                    }
+                });
+
+
+
+                /*--초기 설정--*/
+                function init(){
+                    slides = pages.children;
+                    count = slides.length;
+
+                    for(let i =0; i< count; i++){
+                        slides[i].style.bottom = `${-(i*100)}%`;
+                        
+                        /*
+                        let btn = document.createElement("li");
+                        btn.dataset.slide = i;
+                        btn.addEventListener("click", btnClick);
+                        btns.push(btn);
+                        pagination.appendChild(btn);
+                        */
+                    }
+
+                    //btns[0].classList.add("active");
+                    
+                }
+
+                init();
+            }
+        }
+    </script>
+</body>
+</html>
