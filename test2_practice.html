@@ -103,9 +103,9 @@
         window.onload = function(){
             let pages = document.querySelector(".pages");
             let pagination = document.querySelector(".pagination");
-            let slider = new Slider(pages, pagination);
+            //let slider = new Slider(pages, pagination);
 
-            function Slider(pages, pagination){
+            //function Slider(pages, pagination){
                 let slides;
                 let btns = [];
                 let count =0;
@@ -133,7 +133,17 @@
                 
                 function gotoNext(){
                     if(current < count -1){
+                        /*
+                            처음상태에는 current 가 0 의 값.
+                            0 < 4-1, 1 < 4-1, 2 < 4-1, 3 < 4-1
+
+                            gotoNum 에서 current = index 로 인해 수가 증가함
+                        */
                         gotoNum(current+1);
+                        /*
+                            0+1, 1+1, 2+1...
+                        */
+
                     }else{
                         return false;
                     }
@@ -183,7 +193,7 @@
 
                 init();
             }
-        }
+        //}
     </script>
 </body>
 </html>
